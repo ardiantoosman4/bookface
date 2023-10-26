@@ -24,24 +24,38 @@
         <th>Action</th>
       </tr>
       <% data.forEach(el => { %>
-        <tr>
-          <td><%= el.User.username %></td>
-          <td><%= formatDate(el.createdAt) %></td>
-          <td><%= el.title %></td>
-          <% if (el.imagePath) { %>
-            <td> <img src="<%= el.imagePath%>" style="width:100px"></td>
-            <% } else { %>
-              <td></td>
-          <% } %>
-          <td><%= el.content %></td>
-          <td>
-            <% el.Tags.forEach(tag => { %>
-              <li><a href="#"><%= tag.name %></a></li>
-            <% }) %>
-          </td>
-          <td><a href="/mypost/<%= el.id %>/delete">Delete</a></td>
-  
-        </tr>
+        <% if (el.isBlocked) { %>
+          <tr>
+            <td><%= el.User.username %></td>
+            <td><%= formatDate(el.createdAt) %></td>
+            <td><%= el.title %></td>
+            <td></td>
+            <td> 
+              <p style="color: red;"><b>This content has been blocked, please contact admin to clarify it.</b></p>
+              <p style="color: red;">(When blocked posts cannot be seen by other users)</p>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+        <% } else { %>
+          <tr>
+            <td><%= el.User.username %></td>
+            <td><%= formatDate(el.createdAt) %></td>
+            <td><%= el.title %></td>
+            <% if (el.imagePath) { %>
+              <td> <img src="<%= el.imagePath%>" style="width:100px"></td>
+              <% } else { %>
+                <td></td>
+            <% } %>
+            <td><%= el.content %></td>
+            <td>
+              <% el.Tags.forEach(tag => { %>
+                <li><a href="#"><%= tag.name %></a></li>
+              <% }) %>
+            </td>
+            <td><a href="/mypost/<%= el.id %>/delete">Delete</a></td>
+          </tr>
+        <% } %>
       <% }) %>
     </table>
   </div>

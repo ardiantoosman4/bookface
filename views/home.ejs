@@ -29,6 +29,9 @@
         <th>Image</th>
         <th>Content</th>
         <th>Tags</th>
+        <% if (userRole === "admin") { %>
+          <th>Action</th>
+        <% } %>
       </tr>
       <% data.forEach(el => { %>
         <tr>
@@ -46,6 +49,13 @@
               <li><a href="/home?tag=<%= tag.name %>"><%= tag.name %></a></li>
             <% }) %>
           </td>
+          <% if (userRole === "admin") { %>
+            <td>
+              <a href="/home/<%=el.id %>/isBlock" class="btn btn-warning">
+                <%= el.isBlocked === true ? "Un-Block" : "Block" %>
+              </a>
+            </td>
+          <% } %>
         </tr>
       <% }) %>
     </table>

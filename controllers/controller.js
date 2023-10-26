@@ -24,7 +24,7 @@ class Controller {
         const isValidPassword = bcrypt.compareSync(password, data.password);
         if (isValidPassword) {
           req.session.userId = data.id;
-          req.session.userId = data.id;
+          req.session.userRole = data.role;
           res.redirect("/home");
         } else {
           let errMsg = "Invalid Username or Password!";
@@ -102,12 +102,25 @@ class Controller {
       if (req.query.tag) {
         queryTag = req.query.tag;
       }
-      let data = await Post.getPostsByTag(queryTag, Tag, User);
+      let userRole = req.session.userRole;
+      let data;
+      if (userRole === "admin") {
+        data = await Post.getPostsByTag(queryTag, Tag, User, true);
+      } else {
+        data = await Post.getPostsByTag(queryTag, Tag, User, false);
+      }
       let userProfile = await Profile.findOne({
         where: { UserId: req.session.userId },
       });
       let tagData = await Tag.findAll();
-      res.render("home", { data, userProfile, formatDate, tagData });
+
+      res.render("home", {
+        data,
+        userProfile,
+        formatDate,
+        tagData,
+        userRole,
+      });
     } catch (error) {
       console.log(error);
       res.send(error);
@@ -229,6 +242,23 @@ class Controller {
         }
       );
       res.redirect("/profile");
+    } catch (error) {
+      console.log(error);
+      res.send(error);
+    }
+  }
+  static async isBlock(req, res) {
+    try {
+      let id = req.params.postId;
+      let data = await Post.findOne({ where: { id } });
+      let isBlocked = !data.isBlocked;
+      await Post.update(
+        { isBlocked },
+        {
+          where: { id },
+        }
+      );
+      res.redirect("/home");
     } catch (error) {
       console.log(error);
       res.send(error);

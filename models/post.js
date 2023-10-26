@@ -1,5 +1,5 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, Op } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
     /**
@@ -12,11 +12,14 @@ module.exports = (sequelize, DataTypes) => {
       Post.belongsTo(models.User);
       Post.belongsToMany(models.Tag, { through: "PostHasTag" });
     }
-    static async getPostsByTag(queryTag, Tag, User) {
+    static async getPostsByTag(queryTag, Tag, User, showAll) {
+      let options = { include: [{ model: Tag }, User] };
+      if (!showAll) {
+        options.where = { isBlocked: { [Op.eq]: false } };
+      }
+      console.log(options);
       let data = [];
-      let dataPost = await Post.findAll({
-        include: [{ model: Tag }, User],
-      });
+      let dataPost = await Post.findAll(options);
       if (queryTag) {
         dataPost.forEach((el) => {
           let tags = el.Tags;

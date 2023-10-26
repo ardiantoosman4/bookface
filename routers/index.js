@@ -14,6 +14,7 @@ router.post("/register", Controller.postRegister);
 router.use(isLogin);
 router.get("/logout", Controller.logout);
 router.get("/home", Controller.home);
+router.get("/home/:postId/isBlock", Controller.isBlock);
 
 router.use("/mypost", mypost);
 router.use("/profile", profile);

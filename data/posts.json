@@ -12,6 +12,13 @@
     "UserId": 2
   },
   {
+    "title": "IKEH ??",
+    "content": "INI KONTENT YANG TIDAK BAIK...",
+    "imagePath": "/images/censored.jpg",
+    "UserId": 2,
+    "isBlocked":true
+  },
+  {
     "title": "Political Books",
     "content": "buku tentang politik yang oke nhii",
     "imagePath": "/images/user2post1.jpg",

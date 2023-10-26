@@ -15,6 +15,9 @@ module.exports = {
     let data = JSON.parse(fs.readFileSync("./data/posts.json", "utf-8"));
     let timeNow = new Date();
     data.forEach((el) => {
+      if (!el.isBlocked) {
+        el.isBlocked = false;
+      }
       el.createdAt = timeNow;
       el.updatedAt = timeNow;
     });
