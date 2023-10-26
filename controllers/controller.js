@@ -1,5 +1,6 @@
 const { Post, User, Tag, Profile, PostHasTag } = require("../models/index");
 const formatDate = require("../helpers/formatDate");
+const bcrypt = require("bcryptjs");
 class Controller {
   static async landingPage(req, res) {
     try {
@@ -17,11 +18,18 @@ class Controller {
     try {
       let { username, password } = req.body;
       let data = await User.findOne({
-        where: { username, password },
+        where: { username },
       });
       if (data) {
-        req.session.userId = data.id;
-        res.redirect("home");
+        const isValidPassword = bcrypt.compareSync(password, data.password);
+        if (isValidPassword) {
+          req.session.userId = data.id;
+          req.session.userId = data.id;
+          res.redirect("/home");
+        } else {
+          let errMsg = "Invalid Username or Password!";
+          res.redirect(`/?errMsg=${errMsg}`);
+        }
       } else {
         let errMsg = "Invalid Username or Password!";
         res.redirect(`/?errMsg=${errMsg}`);

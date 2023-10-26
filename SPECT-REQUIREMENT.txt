@@ -3,7 +3,8 @@ static method => get post by tags name, masukin tag ke db?
 getter => Mr. atau Mrs. berdasarkan gender untuk link profile
 validasi => saat registrasi required all field,panjang password,title dan content
 promise chaining => delete post dan add post
-hooks => formating nama file ke db tambhin /images/namafile.png
+hooks => bycrypt, formating nama file ke db tambhin /images/namafile.png
 helpers => format create date
+middleware => autentifikasi dan upload file (multer)
 
 
