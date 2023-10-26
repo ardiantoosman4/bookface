@@ -1,3 +1,4 @@
+role => admin bisa block dan unblock content
 search => berdasarkan tag
 static method => get post by tags name, masukin tag ke db?
 getter => Mr. atau Mrs. berdasarkan gender untuk link profile
