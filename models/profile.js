@@ -50,5 +50,12 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Profile",
     }
   );
+  Profile.addHook("beforeUpdate", (instance, options) => {
+    if (instance.imagePath) {
+      instance.imagePath = `/images/${instance.imagePath}`;
+    } else {
+      instance.imagePath = "";
+    }
+  });
   return Profile;
 };

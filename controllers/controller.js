@@ -192,7 +192,14 @@ class Controller {
   }
   static async profile(req, res) {
     try {
-      res.send("menampilkan form edit profile");
+      let alertMsg = "";
+      if (req.query.errMsg) {
+        alertMsg = req.query.errMsg;
+      }
+      let data = await Profile.findOne({
+        where: { UserId: req.session.userId },
+      });
+      res.render("editProfile", { data, alertMsg });
     } catch (error) {
       console.log(error);
       res.send(error);
@@ -200,7 +207,20 @@ class Controller {
   }
   static async postProfile(req, res) {
     try {
-      res.send("mengubah profile");
+      let UserId = req.session.userId;
+      let { name, bio, gender } = req.body;
+      let imagePath = "";
+      if (req.file) {
+        imagePath = req.file.filename;
+      }
+      await Profile.update(
+        { name, bio, gender, imagePath },
+        {
+          where: { UserId },
+          individualHooks: true,
+        }
+      );
+      res.redirect("/profile");
     } catch (error) {
       console.log(error);
       res.send(error);
