@@ -25,6 +25,20 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      email: {
+        type: DataTypes.STRING,
+        validate: {
+          isEmail: {
+            args: true,
+            msg: "Email must be in email format",
+          },
+          isNotNullEmpty(value) {
+            if (!value) {
+              throw new Error("email is required");
+            }
+          },
+        },
+      },
       password: {
         type: DataTypes.STRING,
         validate: {
@@ -33,9 +47,10 @@ module.exports = (sequelize, DataTypes) => {
               throw new Error("Password is required");
             }
           },
-          len: {
-            args: [5, 20],
-            msg: "Password length must between 5 and 20",
+          minLen(value) {
+            if (value.length < 8) {
+              throw new Error("Password length must be 8 or above");
+            }
           },
         },
       },

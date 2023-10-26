@@ -1,4 +1,5 @@
 const { Post, User, Tag, Profile } = require("../models/index");
+const formatDate = require("../helpers/formatDate");
 class Controller {
   static async landingPage(req, res) {
     try {
@@ -44,14 +45,20 @@ class Controller {
   }
   static async postRegister(req, res) {
     try {
-      let { username, name, gender, password, confirmationPassword } = req.body;
+      let { username, email, name, gender, password, confirmationPassword } =
+        req.body;
       if (password) {
         if (password !== confirmationPassword) {
           let errMsg = "Password not match with Confirmation Password";
           res.redirect(`/register?errMsg=${errMsg}`);
         }
       }
-      let createdUser = await User.create({ username, password, role: "user" });
+      let createdUser = await User.create({
+        username,
+        email,
+        password,
+        role: "user",
+      });
       await Profile.create({ UserId: createdUser.id, name, gender });
       res.redirect("/");
     } catch (error) {
@@ -84,17 +91,16 @@ class Controller {
   static async home(req, res) {
     //" form buat search by tag dan menampilkan semua post";
     try {
-      let optionTag = {};
+      let queryTag = "";
       if (req.query.tag) {
-        optionTag.name = req.query.tag;
+        queryTag = req.query.tag;
       }
-      let data = await Post.findAll({
-        include: [{ model: Tag, where: optionTag }, User],
-      });
+      let data = await Post.getPostsByTag(queryTag, Tag, User);
       let userProfile = await Profile.findOne({
         where: { UserId: req.session.userId },
       });
-      res.render("home", { data, userProfile });
+      let tagData = await Tag.findAll();
+      res.render("home", { data, userProfile, formatDate, tagData });
     } catch (error) {
       console.log(error);
       res.send(error);
@@ -116,7 +122,7 @@ class Controller {
         where: { UserId: req.session.userId },
       });
 
-      res.render("mypost", { data, deleteMsg, userProfile });
+      res.render("mypost", { data, deleteMsg, userProfile, formatDate });
     } catch (error) {
       console.log(error);
       res.send(error);

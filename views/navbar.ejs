@@ -1,5 +1,13 @@
-<h1>NAAAAAVVVVVVBBBAAAARRRRR</h1>
-<a href="/home">home</a>
-<a href="/mypost">my post</a>
-<a href="/logout">logout</a>
-<a href="/profile"><%= userProfile.formatedName %></a>
+<div style="display:flex; justify-content:space-between; background-color: coral; margin-bottom: 20px; padding: 10px 20px;">
+  <div>
+    <a href="/home" style="font-size: 30px; text-decoration: none;">bookface</a>
+    <!-- <h1>bookface</h1> -->
+
+  </div>
+  <div style="align-items: center;display: flex;">
+    <a href="/home" style="margin-right: 20px;">home</a>
+    <a href="/mypost" style="margin-right: 20px;">my post</a>
+    <a href="/logout" style="margin-right: 20px;">logout</a>
+    <a href="/profile"><%= userProfile.formatedName %></a>
+  </div>
+</div>

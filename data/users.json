@@ -1,16 +1,19 @@
 [
   {
     "username":"admin",
+    "email":"admin@gmail.com",
     "password":"helloAdmin",
     "role":"admin"
   },
   {
     "username":"user1",
+    "email":"user1@gmail.com",
     "password":"helloUser1",
     "role":"user"
   },
   {
     "username":"user2",
+    "email":"user2@gmail.com",
     "password":"helloUser2",
     "role":"user"
   }

@@ -12,6 +12,26 @@ module.exports = (sequelize, DataTypes) => {
       Post.belongsTo(models.User);
       Post.belongsToMany(models.Tag, { through: "PostHasTag" });
     }
+    static async getPostsByTag(queryTag,Tag,User) {
+      let data = [];
+      let dataPost = await Post.findAll({
+        include: [{ model: Tag }, User],
+      });
+      if (queryTag) {
+        dataPost.forEach((el) => {
+          let tags = el.Tags;
+          for (const tag of tags) {
+            if (tag.name === queryTag) {
+              data.push(el);
+              break;
+            }
+          }
+        });
+      } else {
+        data = dataPost;
+      }
+      return data;
+    }
   }
   Post.init(
     {
