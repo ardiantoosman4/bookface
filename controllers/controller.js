@@ -89,7 +89,6 @@ class Controller {
     }
   }
   static async home(req, res) {
-    //" form buat search by tag dan menampilkan semua post";
     try {
       let queryTag = "";
       if (req.query.tag) {
@@ -142,7 +141,9 @@ class Controller {
   }
   static async postAddPost(req, res) {
     try {
+      UserId: req.session.userId;
       console.log(req.body);
+      console.log(req.file.filename);
       res.send("menambahkan post dan redirect ke mypost");
     } catch (error) {
       console.log(error);

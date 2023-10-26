@@ -10,7 +10,7 @@
 <body>
   <%- include('navbar',{userProfile}) %>
   <div class="container">
-    <form action="/mypost/add" method="post">
+    <form action="/mypost/add" method="post" enctype="multipart/form-data">
       <div>
         <label for="title">Title : </label>
         <input type="text" name="title" id="title">
@@ -27,7 +27,7 @@
         <label for="tag">Tags :</label><br>
         <% tagData.forEach(el => { %>
          
-          <input type="checkbox" name="tag" id="tag-<%=el.id %>" value="<%= el.id %>"> 
+          <input type="checkbox" name="tag" id="tag-<%=el.id %>" value="<%= el.name %>"> 
           <label for="tag-<%=el.id %>"><%= el.name %></label>
         <% }) %>
       </div>
