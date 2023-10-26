@@ -1,0 +1,7 @@
+search => berdasarkan tag
+getter => Mr. atau Mrs. berdasarkan gender
+static method => ngebenerin format tag
+hooks => formating nama file ke db tambhin /images/namafile.png
+validasi dan promise chaining => saat registrasi required all field,isEmail,dan panjang password
+
+
