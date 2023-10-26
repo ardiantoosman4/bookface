@@ -10,6 +10,13 @@
 <body>
   <%- include('navbar',{userProfile}) %>
   <div class="container">
+    <% if (alertMsg.length>0) { %>
+      <div class="alert alert-danger" role="alert">
+        <% alertMsg.forEach(el => { %>
+          <li style="color: red;"><%= el %></li>
+        <% }) %>
+      </div>
+    <% } %>
     <form action="/mypost/add" method="post" enctype="multipart/form-data">
       <div>
         <label for="title">Title : </label>
@@ -27,7 +34,7 @@
         <label for="tag">Tags :</label><br>
         <% tagData.forEach(el => { %>
          
-          <input type="checkbox" name="tag" id="tag-<%=el.id %>" value="<%= el.name %>"> 
+          <input type="checkbox" name="TagId" id="tag-<%=el.id %>" value="<%= el.id %>"> 
           <label for="tag-<%=el.id %>"><%= el.name %></label>
         <% }) %>
       </div>

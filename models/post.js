@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       Post.belongsTo(models.User);
       Post.belongsToMany(models.Tag, { through: "PostHasTag" });
     }
-    static async getPostsByTag(queryTag,Tag,User) {
+    static async getPostsByTag(queryTag, Tag, User) {
       let data = [];
       let dataPost = await Post.findAll({
         include: [{ model: Tag }, User],
@@ -35,8 +35,26 @@ module.exports = (sequelize, DataTypes) => {
   }
   Post.init(
     {
-      title: DataTypes.STRING,
-      content: DataTypes.STRING,
+      title: {
+        type: DataTypes.STRING,
+        validate: {
+          isNotNullEmpty(value) {
+            if (!value) {
+              throw new Error("Title is required");
+            }
+          },
+        },
+      },
+      content: {
+        type: DataTypes.STRING,
+        validate: {
+          isNotNullEmpty(value) {
+            if (!value) {
+              throw new Error("Content is required");
+            }
+          },
+        },
+      },
       imagePath: DataTypes.STRING,
       UserId: DataTypes.INTEGER,
       isBlocked: DataTypes.BOOLEAN,
@@ -46,5 +64,12 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Post",
     }
   );
+  Post.addHook("beforeCreate", (instance, options) => {
+    if (instance.imagePath) {
+      instance.imagePath = `/images/${instance.imagePath}`;
+    } else {
+      instance.imagePath = "";
+    }
+  });
   return Post;
 };

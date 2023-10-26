@@ -20,6 +20,7 @@
         <th>Title</th>
         <th>Image</th>
         <th>Content</th>
+        <th>Tags</th>
         <th>Action</th>
       </tr>
       <% data.forEach(el => { %>
@@ -33,6 +34,11 @@
               <td></td>
           <% } %>
           <td><%= el.content %></td>
+          <td>
+            <% el.Tags.forEach(tag => { %>
+              <li><a href="#"><%= tag.name %></a></li>
+            <% }) %>
+          </td>
           <td><a href="/mypost/<%= el.id %>/delete">Delete</a></td>
   
         </tr>

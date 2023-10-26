@@ -10,6 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+    static async bulkInsertPostHasTag(PostId,TagIds){
+      for (const TagId of TagIds) {
+        await PostHasTag.create({ PostId ,TagId});
+        
+      }
+    }
   }
   PostHasTag.init(
     {

@@ -1,4 +1,4 @@
-const { Post, User, Tag, Profile } = require("../models/index");
+const { Post, User, Tag, Profile, PostHasTag } = require("../models/index");
 const formatDate = require("../helpers/formatDate");
 class Controller {
   static async landingPage(req, res) {
@@ -129,11 +129,15 @@ class Controller {
   }
   static async addPost(req, res) {
     try {
+      let alertMsg = [];
+      if (req.query.errMsg) {
+        alertMsg = req.query.errMsg.split(",");
+      }
       let tagData = await Tag.findAll();
       let userProfile = await Profile.findOne({
         where: { UserId: req.session.userId },
       });
-      res.render("addPost", { userProfile, tagData });
+      res.render("addPost", { userProfile, tagData, alertMsg });
     } catch (error) {
       console.log(error);
       res.send(error);
@@ -141,13 +145,34 @@ class Controller {
   }
   static async postAddPost(req, res) {
     try {
-      UserId: req.session.userId;
-      console.log(req.body);
-      console.log(req.file.filename);
-      res.send("menambahkan post dan redirect ke mypost");
+      let UserId = req.session.userId;
+      let { title, content, TagId } = req.body;
+      let imagePath = "";
+      if (req.file) {
+        imagePath = req.file.filename;
+      }
+
+      let createdPost = await Post.create({
+        title,
+        content,
+        imagePath,
+        UserId,
+      });
+      if (TagId) {
+        await PostHasTag.bulkInsertPostHasTag(createdPost.id, TagId);
+      }
+      res.redirect("/mypost");
     } catch (error) {
-      console.log(error);
-      res.send(error);
+      if (error.name === "SequelizeValidationError") {
+        let errorMsg = [];
+        error.errors.forEach((el) => {
+          errorMsg.push(el.message);
+        });
+        res.redirect(`/mypost/add?errMsg=${errorMsg}`);
+      } else {
+        console.log(error);
+        res.send(error);
+      }
     }
   }
   static async deletePost(req, res) {
