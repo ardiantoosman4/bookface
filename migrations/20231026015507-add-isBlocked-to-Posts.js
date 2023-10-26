@@ -11,6 +11,7 @@ module.exports = {
      */
     await queryInterface.addColumn("Posts", "isBlocked", {
       type: Sequelize.BOOLEAN,
+      defaultValue: false
     });
   },
 

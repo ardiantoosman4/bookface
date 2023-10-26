@@ -1,0 +1,25 @@
+[
+  {
+    "title": "Rekomendasi buku self-help",
+    "content": "buku yang sangat membantu saya, mnejadi orang yang lebih baik.",
+    "imagePath": "/images/user1post1.jpg",
+    "UserId": 1
+  },
+  {
+    "title": "Curhat aja",
+    "content": "Buku yang dibeli tapi kagak di baca-baca..Kapan yaa sempet bacanya..",
+    "imagePath": "/images/user1post2.jpg",
+    "UserId": 1
+  },
+  {
+    "title": "Political Books",
+    "content": "buku tentang politik yang oke nhii",
+    "imagePath": "/images/user2post1.jpg",
+    "UserId": 2
+  },
+  {
+    "title": "Ask recommendation",
+    "content": "Boleh kasih rekomendasi manga yang bagus menurut kalian gan?",
+    "UserId": 2
+  }
+]
