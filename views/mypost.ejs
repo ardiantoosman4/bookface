@@ -6,9 +6,9 @@
   <title>bookface</title>
 </head>
 <body>
-  <%- include('navbar') %>
-
-  <a href="/add">Add Post</a>
+  <%- include('navbar',{userProfile}) %>
+  <a href="/mypost/add">Add Post</a>
+  <h6 style="color: red;"><%= deleteMsg %></h6>
 
   <table>
     <tr>

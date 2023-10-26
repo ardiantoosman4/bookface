@@ -84,8 +84,17 @@ class Controller {
   static async home(req, res) {
     //" form buat search by tag dan menampilkan semua post";
     try {
-      let data = await Post.findAll({ include: [Tag, User] });
-      res.render("home", { data });
+      let optionTag = {};
+      if (req.query.tag) {
+        optionTag.name = req.query.tag;
+      }
+      let data = await Post.findAll({
+        include: [{ model: Tag, where: optionTag }, User],
+      });
+      let userProfile = await Profile.findOne({
+        where: { UserId: req.session.userId },
+      });
+      res.render("home", { data, userProfile });
     } catch (error) {
       console.log(error);
       res.send(error);
@@ -93,11 +102,21 @@ class Controller {
   }
   static async mypost(req, res) {
     try {
+      let deleteMsg = "";
+      if (req.query.deleteMsg) {
+        deleteMsg = req.query.deleteMsg;
+        deleteMsg = `Successfully delete post with title "${deleteMsg}"`;
+      }
+
       let data = await Post.findAll({
         include: [Tag, User],
         where: { UserId: req.session.userId },
       });
-      res.render("mypost", { data });
+      let userProfile = await Profile.findOne({
+        where: { UserId: req.session.userId },
+      });
+
+      res.render("mypost", { data, deleteMsg, userProfile });
     } catch (error) {
       console.log(error);
       res.send(error);
@@ -105,6 +124,19 @@ class Controller {
   }
   static async addPost(req, res) {
     try {
+      let tagData = await Tag.findAll();
+      let userProfile = await Profile.findOne({
+        where: { UserId: req.session.userId },
+      });
+      res.render("addPost", { userProfile, tagData });
+    } catch (error) {
+      console.log(error);
+      res.send(error);
+    }
+  }
+  static async postAddPost(req, res) {
+    try {
+      console.log(req.body);
       res.send("menambahkan post dan redirect ke mypost");
     } catch (error) {
       console.log(error);
@@ -114,10 +146,13 @@ class Controller {
   static async deletePost(req, res) {
     try {
       let id = req.params.postId;
+      let data = await Post.findOne({
+        where: { id },
+      });
       await Post.destroy({
         where: { id },
       });
-      res.redirect("/mypost");
+      res.redirect(`/mypost?deleteMsg=${data.title}`);
     } catch (error) {
       console.log(error);
       res.send(error);

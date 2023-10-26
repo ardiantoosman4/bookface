@@ -6,7 +6,7 @@
   <title>bookface</title>
 </head>
 <body>
-  <%- include('navbar') %>
+  <%- include('navbar',{userProfile}) %>
 
   <table>
     <tr>
@@ -14,6 +14,7 @@
       <th>Title</th>
       <th>Image</th>
       <th>Content</th>
+      <th>Tags</th>
     </tr>
     <% data.forEach(el => { %>
       <tr>
@@ -25,6 +26,11 @@
             <td></td>
         <% } %>
         <td><%= el.content %></td>
+        <td>
+          <% el.Tags.forEach(tag => { %>
+            <li><a href="/home?tag=<%= tag.name %>"><%= tag.name %></a></li>
+          <% }) %>
+        </td>
       </tr>
     <% }) %>
   </table>
