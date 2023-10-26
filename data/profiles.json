@@ -1,12 +1,17 @@
 [
   {
     "UserId":1,
-    "name":"USER1",
-    "gender":"wanita"
+    "name":"ADMIN",
+    "gender":"female"
   },
   {
     "UserId":2,
+    "name":"USER1",
+    "gender":"female"
+  },
+  {
+    "UserId":3,
     "name":"USER2",
-    "gender":"pria"
+    "gender":"male"
   }
 ]

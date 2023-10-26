@@ -15,10 +15,28 @@ module.exports = (sequelize, DataTypes) => {
   Profile.init(
     {
       UserId: DataTypes.INTEGER,
-      name: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        validate: {
+          isNotNullEmpty(value) {
+            if (!value) {
+              throw new Error("Name is required");
+            }
+          },
+        },
+      },
       imagePath: DataTypes.STRING,
       bio: DataTypes.STRING,
-      gender: DataTypes.STRING,
+      gender: {
+        type: DataTypes.STRING,
+        validate: {
+          isNotNullEmpty(value) {
+            if (!value) {
+              throw new Error("Gender is required");
+            }
+          },
+        },
+      },
     },
     {
       sequelize,

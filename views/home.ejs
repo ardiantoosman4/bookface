@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bookface</title>
+</head>
+<body>
+  <%- include('navbar') %>
+
+  <table>
+    <tr>
+      <th>User Name</th>
+      <th>Title</th>
+      <th>Image</th>
+      <th>Content</th>
+    </tr>
+    <% data.forEach(el => { %>
+      <tr>
+        <td><%= el.User.username %></td>
+        <td><%= el.title %></td>
+        <% if (el.imagePath) { %>
+          <td> <img src="<%= el.imagePath%>" style="width:100px"></td>
+          <% } else { %>
+            <td></td>
+        <% } %>
+        <td><%= el.content %></td>
+      </tr>
+    <% }) %>
+  </table>
+</body>
+</html>
+
